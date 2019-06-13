@@ -41,14 +41,26 @@
       //3. The target task is not the same as the current one (in case of a save action)
       if (Alfresco.constants.USERNAME == task.owner.userName && task.state!="COMPLETED" && oldTaskId != taskId) {
         var redirectURL = Alfresco.constants.URL_PAGECONTEXT + "task-edit?taskId="+ taskId +"&redirect="+queryParamRedir;
-        redirectCallback.scope.options.submitUrl = redirectURL;
+        if(typeof redirectCallback.scope.options === 'undefined'){
+			redirectCallback.scope.options = {submitUrl: redirectURL};
+		}else{
+			redirectCallback.scope.options.submitUrl = redirectURL;
+		}
       }
       else if (queryParamRedir != null) {
-        redirectCallback.scope.options.submitUrl = decodeURIComponent(queryParamRedir);
+    	if(typeof redirectCallback.scope.options === 'undefined'){
+  			redirectCallback.scope.options = {submitUrl: decodeURIComponent(queryParamRedir)};
+  		}else{
+  			redirectCallback.scope.options.submitUrl = decodeURIComponent(queryParamRedir);
+  		}
       }      
     }
     else if (queryParamRedir != null) {
-      redirectCallback.scope.options.submitUrl = decodeURIComponent(queryParamRedir);
+      if(typeof redirectCallback.scope.options === 'undefined'){
+			redirectCallback.scope.options = {submitUrl: decodeURIComponent(queryParamRedir)};
+		}else{
+			redirectCallback.scope.options.submitUrl = decodeURIComponent(queryParamRedir);
+		}
     }
     redirectCallback.fn.call(redirectCallback.scope, obj.response);
   };
